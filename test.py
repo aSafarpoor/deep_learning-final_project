@@ -1,22 +1,54 @@
 import numpy as np
-from keras.preprocessing.image import ImageDataGenerator
 from keras.models import load_model
 import cv2
-path = "/home/amir/Code/bama_ir/dataset/CLEANED_TEST/pics/"
-MPATH = "/home/amir/Code/bama_ir/temp/"
 
-input_shape = (225, 150, 3)
+MODEL_PATH = "PATH TO MODEL.h5"
+IMAGE_PATH = "PATH TO PIC"
 
-train_datagen = ImageDataGenerator(rescale=1./255)
-DG = train_datagen.flow_from_directory(
-    path,
-    target_size=input_shape[:-1],
-    batch_size=1)
+class_indices = {'امویام-315هاچبک': 0,
+                 'بامو-X': 1,
+                 'بامو-سری3سدان': 2,
+                 'بامو-سری7': 3,
+                 'برلیانس-H230': 4,
+                 'بنز-کلاسC': 5,
+                 'بنز-کلاسE': 6,
+                 'تویوتا-لندکروزچهاردر': 7,
+                 'تویوتا-پرادوچهاردر': 8,
+                 'تویوتا-کمری': 9,
+                 'تیبا': 10,
+                 'جک-اس': 11,
+                 'دانگفنگ-H30کراس': 12,
+                 'دنا': 13,
+                 'رنو-تالیسمان': 14,
+                 'رنو-تندر': 15,
+                 'رنو-ساندرو': 16,
+                 'رنو-کولیوس': 17,
+                 'سمند': 18,
+                 'لکسوس-NX': 19,
+                 'لکسوس-RX': 20,
+                 'نیسان-جوک': 21,
+                 'نیسان-ماکسیما': 22,
+                 'نیسان-پاترول': 23,
+                 'هایما-S': 24,
+                 'هیوندای-النترا': 25,
+                 'هیوندای-جنسیس': 26,
+                 'هیوندای-سوناتا': 27,
+                 'پراید': 28,
+                 'پژو-2008': 29,
+                 'پژو-206': 30,
+                 'پژو-206SD': 31,
+                 'پژو-207': 32,
+                 'پژو-405': 33,
+                 'پژو-پارس': 34,
+                 'چری-تیگو5': 35,
+                 'کیا-اسپورتیج': 36,
+                 'کیا-اپتیما': 37,
+                 'کیا-سراتو': 38,
+                 'کیا-سورنتو': 39}
 
-model = load_model(MPATH+"model_main.h5")
+model = load_model(MODEL_PATH)
 
-img = cv2.imread(
-    path+"/پژو-206/CarImage8376360_637092586498969802_0_thumb_450_300.jpg", 3)
+img = cv2.imread(IMAGE_PATH, 3)
 
 cv2.imshow("test pic", img)
 cv2.waitKey(10000)
@@ -26,7 +58,7 @@ result = model.predict(np.array([img]))
 
 index = np.argmax(result)
 
-for i in DG.class_indices:
-    if DG.class_indices[i] == index:
+for i in class_indices:
+    if class_indices[i] == index:
         print(i)
         break
