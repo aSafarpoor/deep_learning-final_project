@@ -16,7 +16,11 @@ DG = train_datagen.flow_from_directory(
 model = load_model(MPATH+"model_main.h5")
 
 img = cv2.imread(
-    path+"/پژو-206/CarImage8376360_637092586498969802_0_thumb_450_300.jpg")
+    path+"/پژو-206/CarImage8376360_637092586498969802_0_thumb_450_300.jpg", 3)
+
+cv2.imshow("test pic", img)
+cv2.waitKey(10000)
+
 img = cv2.resize(img, (150, 225))
 result = model.predict(np.array([img]))
 
